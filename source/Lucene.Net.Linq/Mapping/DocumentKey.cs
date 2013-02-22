@@ -47,7 +47,7 @@ namespace Lucene.Net.Linq.Mapping
             }
 
             var query = new BooleanQuery();
-            values.Apply(kvp => query.Add(ConvertToQueryExpression(kvp), Occur.MUST));
+            values.Apply(kvp => query.Add(ConvertToQueryExpression(kvp), BooleanClause.Occur.MUST));
             return query;
         }
 

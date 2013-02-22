@@ -113,11 +113,9 @@ namespace Lucene.Net.Linq.Mapping
 
         public virtual Query CreateQuery(string pattern)
         {
-            var queryParser = new QueryParser(Version.LUCENE_30, FieldName, analyzer)
-                {
-                    AllowLeadingWildcard = true,
-                    LowercaseExpandedTerms = !CaseSensitive
-                };
+            var queryParser = new QueryParser(Version.LUCENE_29, FieldName, analyzer);
+            queryParser.SetAllowLeadingWildcard(true);
+            queryParser.SetLowercaseExpandedTerms(!CaseSensitive);
 
             return queryParser.Parse(pattern);
         }
@@ -164,7 +162,7 @@ namespace Lucene.Net.Linq.Mapping
 
         protected internal virtual object ConvertFieldValue(Field field)
         {
-            var fieldValue = (object)field.StringValue;
+            var fieldValue = (object)field.StringValue();
 
             if (converter != null)
             {

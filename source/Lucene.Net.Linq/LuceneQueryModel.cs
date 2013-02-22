@@ -55,8 +55,8 @@ namespace Lucene.Net.Linq
             }
 
             var bQuery = new BooleanQuery();
-            bQuery.Add(query, Occur.MUST);
-            bQuery.Add(additionalQuery, Occur.MUST);
+            bQuery.Add(query, BooleanClause.Occur.MUST);
+            bQuery.Add(additionalQuery, BooleanClause.Occur.MUST);
 
             query = bQuery;
         }
@@ -113,7 +113,7 @@ namespace Lucene.Net.Linq
             {
                 if (direction == OrderingDirection.Desc)
                 {
-                    sorts.Add(new SortField(SortField.FIELD_SCORE.Field, SortField.FIELD_SCORE.Type, true));
+                    sorts.Add(new SortField(SortField.FIELD_SCORE.GetField(), SortField.FIELD_SCORE.GetType(), true));
                 }
                 else
                 {

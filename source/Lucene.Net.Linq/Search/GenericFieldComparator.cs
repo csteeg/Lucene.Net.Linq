@@ -19,9 +19,9 @@ namespace Lucene.Net.Linq.Search
             return bottom.CompareTo(currentReaderValues[doc]);
         }
 
-        public override IComparable this[int slot]
+        public override IComparable Value(int slot)
         {
-            get { return new ComparableWrapper(values[slot]); }
+            return new ComparableWrapper(values[slot]);
         }
 
         class ComparableWrapper : IComparable

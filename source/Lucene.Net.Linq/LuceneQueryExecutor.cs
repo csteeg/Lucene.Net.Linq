@@ -93,7 +93,7 @@ namespace Lucene.Net.Linq
             {
                 var searcher = searcherHandle.Searcher;
                 var skipResults = luceneQueryModel.SkipResults;
-                var maxResults = Math.Min(luceneQueryModel.MaxResults, searcher.MaxDoc - skipResults);
+                var maxResults = Math.Min(luceneQueryModel.MaxResults, searcher.MaxDoc() - skipResults);
 
                 var executionContext = new QueryExecutionContext(searcher, luceneQueryModel.Query, luceneQueryModel.Filter);
                 PrepareSearchSettings(executionContext);
@@ -139,7 +139,7 @@ namespace Lucene.Net.Linq
             {
                 var searcher = searcherHandle.Searcher;
                 var skipResults = luceneQueryModel.SkipResults;
-                var maxResults = Math.Min(luceneQueryModel.MaxResults, searcher.MaxDoc - skipResults);
+                var maxResults = Math.Min(luceneQueryModel.MaxResults, searcher.MaxDoc() - skipResults);
                 var query = luceneQueryModel.Query;
 
                 var scoreFunction = luceneQueryModel.GetCustomScoreFunction<TDocument>();
@@ -170,7 +170,7 @@ namespace Lucene.Net.Linq
                     executionContext.CurrentHit = i;
                     executionContext.CurrentScoreDoc = hits.ScoreDocs[i];
 
-                    var doc = hits.ScoreDocs[i].Doc;
+                    var doc = hits.ScoreDocs[i].doc;
 
                     var item = ConvertDocument(searcher.Doc(doc), executionContext);
 

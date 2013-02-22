@@ -90,11 +90,11 @@ namespace Lucene.Net.Linq.Translation
                 (query, property) =>
                     {
                         var fieldMappingInfo = fieldMappingInfoProvider.GetMappingInfo(property);
-                        query.Add(fieldMappingInfo.CreateQuery("*"), Occur.MUST);
+                        query.Add(fieldMappingInfo.CreateQuery("*"), BooleanClause.Occur.MUST);
                         return query;
                     });
 
-            if (filterQuery.Clauses.Count > 0)
+            if (filterQuery.Clauses().Count > 0)
             {
                 model.Filter = new QueryWrapperFilter(filterQuery);
             }

@@ -47,7 +47,7 @@ task Test -depends Compile -precondition { return $run_tests }{
 task Package -depends Compile, Test {
 
   $spec_files = @(Get-ChildItem $packageinfo_dir "Lucene.Net.Linq*.nuspec" -Recurse)
-
+  B
   foreach ($spec in @($spec_files))
   {
     $dir =  $($spec.Directory)
