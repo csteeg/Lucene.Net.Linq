@@ -37,7 +37,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
 
             mapper.CopyFromDocument(document, queryExecutionContext, sample);
 
-            Assert.That(sample.Score, Is.EqualTo(queryExecutionContext.CurrentScoreDoc.Score));
+            Assert.That(sample.Score, Is.EqualTo(queryExecutionContext.CurrentScoreDoc.score));
         }
 
         [Test]

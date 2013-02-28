@@ -16,7 +16,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
         [Test]
         public void SpecifyAnalyzer()
         {
-            var mapper = CreateMapper("Text", analyzer:new PorterStemAnalyzer(Net.Util.Version.LUCENE_30));
+            var mapper = CreateMapper("Text", analyzer:new PorterStemAnalyzer(Net.Util.Version.LUCENE_29));
 
             var query = mapper.CreateQuery("values");
 
@@ -77,7 +77,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
         [Test]
         public void AnalyzesQueryValue()
         {
-            var mapper = CreateMapper("Text", analyzer: new StandardAnalyzer(Net.Util.Version.LUCENE_30));
+            var mapper = CreateMapper("Text", analyzer: new StandardAnalyzer(Net.Util.Version.LUCENE_29));
 
             var result = mapper.CreateRangeQuery("SomeValue", null, RangeType.Inclusive, RangeType.Inclusive);
 
@@ -92,8 +92,8 @@ namespace Lucene.Net.Linq.Tests.Mapping
 
             var sort = mapper.CreateSortField(reverse: false);
 
-            Assert.That(sort.Field, Is.EqualTo(mapper.FieldName));
-            Assert.That(sort.ComparatorSource, Is.InstanceOf<NonGenericConvertableFieldComparatorSource>());
+            Assert.That(sort.GetField(), Is.EqualTo(mapper.FieldName));
+            Assert.That(sort.GetComparatorSource(), Is.InstanceOf<NonGenericConvertableFieldComparatorSource>());
 
         }
 

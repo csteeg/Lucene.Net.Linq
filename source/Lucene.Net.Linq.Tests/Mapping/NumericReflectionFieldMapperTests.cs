@@ -36,7 +36,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
             mapper.CopyToDocument(sample, document);
 
             var field = (NumericField)document.GetFieldable("Long");
-            Assert.That(field.TokenStreamValue.ToString(), Is.EqualTo("(numeric,valSize=64,precisionStep=4)"));
+            Assert.That(field.TokenStreamValue().ToString(), Is.EqualTo("(numeric,valSize=64,precisionStep=4)"));
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
             mapper.CopyToDocument(sample, document);
 
             var field = (NumericField)document.GetFieldable("Int");
-            Assert.That(field.TokenStreamValue.ToString(), Is.EqualTo("(numeric,valSize=32,precisionStep=128)"));
+            Assert.That(field.TokenStreamValue().ToString(), Is.EqualTo("(numeric,valSize=32,precisionStep=128)"));
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
         {
             mapper = new NumericReflectionFieldMapper<Sample>(typeof(Sample).GetProperty("Int"), StoreMode.Yes, null, TypeDescriptor.GetConverter(typeof(int)), "Int", 128);
 
-            Assert.That(mapper.CreateSortField(false).Type, Is.EqualTo(SortField.INT));
+            Assert.That(mapper.CreateSortField(false).GetType(), Is.EqualTo(SortField.INT));
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
         {
             mapper = new NumericReflectionFieldMapper<Sample>(typeof(Sample).GetProperty("Long"), StoreMode.Yes, null, TypeDescriptor.GetConverter(typeof(long)), "Long", NumericUtils.PRECISION_STEP_DEFAULT);
 
-            Assert.That(mapper.CreateSortField(false).Type, Is.EqualTo(SortField.LONG));
+            Assert.That(mapper.CreateSortField(false).GetType(), Is.EqualTo(SortField.LONG));
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
 
             mapper = new NumericReflectionFieldMapper<Sample>(typeof(Sample).GetProperty("Complex"), StoreMode.Yes, valueTypeConverter, TypeDescriptor.GetConverter(typeof(int)), "Complex", 128);
 
-            Assert.That(mapper.CreateSortField(false).Type, Is.EqualTo(SortField.INT));
+            Assert.That(mapper.CreateSortField(false).GetType(), Is.EqualTo(SortField.INT));
         }
 
         [Test]
@@ -107,7 +107,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
 
             var result = mapper.CreateRangeQuery(-5L, 5L, RangeType.Inclusive, RangeType.Exclusive);
 
-            Assert.That(result, Is.InstanceOf<NumericRangeQuery<long>>());
+            Assert.That(result, Is.InstanceOf<NumericRangeQuery>());
             Assert.That(result.ToString(), Is.EqualTo("Long:[-5 TO 5}"));
         }
 
@@ -118,7 +118,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
 
             var result = mapper.CreateRangeQuery(100L, null, RangeType.Exclusive, RangeType.Inclusive);
 
-            Assert.That(result, Is.InstanceOf<NumericRangeQuery<long>>());
+            Assert.That(result, Is.InstanceOf<NumericRangeQuery>());
             Assert.That(result.ToString(), Is.EqualTo(string.Format("Long:{{100 TO {0}]", long.MaxValue)));
         }
 

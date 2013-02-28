@@ -53,7 +53,7 @@ namespace Lucene.Net.Linq.Tests.Translation.TreeVisitors
             var expression = new LuceneQueryPredicateExpression(
                 new LuceneQueryFieldExpression(typeof(string), "Name"),
                 Expression.Constant("SampleName"),
-                Occur.MUST,
+                BooleanClause.Occur.MUST,
                 QueryType.GreaterThan);
 
             builder.VisitExpression(expression);
@@ -67,7 +67,7 @@ namespace Lucene.Net.Linq.Tests.Translation.TreeVisitors
             var expression = new LuceneQueryPredicateExpression(
                 new LuceneQueryFieldExpression(typeof(string), "Name"),
                 Expression.Constant("SampleName"),
-                Occur.MUST,
+                BooleanClause.Occur.MUST,
                 QueryType.GreaterThanOrEqual);
 
             builder.VisitExpression(expression);
@@ -81,7 +81,7 @@ namespace Lucene.Net.Linq.Tests.Translation.TreeVisitors
             var expression = new LuceneQueryPredicateExpression(
                 new LuceneQueryFieldExpression(typeof(string), "Name"),
                 Expression.Constant("SampleName"),
-                Occur.MUST,
+                BooleanClause.Occur.MUST,
                 QueryType.LessThan);
 
             builder.VisitExpression(expression);
@@ -95,7 +95,7 @@ namespace Lucene.Net.Linq.Tests.Translation.TreeVisitors
             var expression = new LuceneQueryPredicateExpression(
                 new LuceneQueryFieldExpression(typeof(string), "Name"),
                 Expression.Constant("SampleName"),
-                Occur.MUST,
+                BooleanClause.Occur.MUST,
                 QueryType.LessThanOrEqual);
 
             builder.VisitExpression(expression);

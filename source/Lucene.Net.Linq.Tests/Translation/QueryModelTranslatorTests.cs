@@ -164,9 +164,9 @@ namespace Lucene.Net.Linq.Tests.Translation
 
         private void AssertSortFieldEquals(SortField sortField, string expectedFieldName, OrderingDirection expectedDirection, int expectedType)
         {
-            Assert.That(sortField.Field, Is.EqualTo(expectedFieldName));
-            Assert.That(sortField.Type, Is.EqualTo(expectedType), "SortField type for field " + expectedFieldName);
-            Assert.That(sortField.Reverse, Is.EqualTo(expectedDirection == OrderingDirection.Desc), "Reverse");
+            Assert.That(sortField.GetField(), Is.EqualTo(expectedFieldName));
+            Assert.That(sortField.GetType(), Is.EqualTo(expectedType), "SortField type for field " + expectedFieldName);
+            Assert.That(sortField.GetReverse(), Is.EqualTo(expectedDirection == OrderingDirection.Desc), "Reverse");
         }
 
         private void ExpectSortOnProperty(string propertyName, int sortType, OrderingDirection direction)

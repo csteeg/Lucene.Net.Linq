@@ -49,7 +49,7 @@ namespace Lucene.Net.Linq.Tests
         [Test]
         public void CreatesIndex()
         {
-            var provider = new LuceneDataProvider(new RAMDirectory(), Version.LUCENE_30);
+            var provider = new LuceneDataProvider(new RAMDirectory(), Version.LUCENE_29);
 
             Assert.That(provider.AsQueryable<A>().Count(), Is.EqualTo(0));
         }
@@ -57,7 +57,7 @@ namespace Lucene.Net.Linq.Tests
         [Test]
         public void DisposesInternallyCreatedWriter()
         {
-            var provider = new TestableLuceneDataProvider(new RAMDirectory(), Version.LUCENE_30);
+            var provider = new TestableLuceneDataProvider(new RAMDirectory(), Version.LUCENE_29);
             
             provider.Dispose();
 
@@ -67,7 +67,7 @@ namespace Lucene.Net.Linq.Tests
         [Test]
         public void UsesSameWriterInstance()
         {
-            var provider = new TestableLuceneDataProvider(new RAMDirectory(), Version.LUCENE_30);
+            var provider = new TestableLuceneDataProvider(new RAMDirectory(), Version.LUCENE_29);
 
             Assert.That(provider.IndexWriter, Is.SameAs(provider.IndexWriter), "provider.IndexWriter");
         }
@@ -75,7 +75,7 @@ namespace Lucene.Net.Linq.Tests
         [Test]
         public void CreatesNewWriterAfterRollback()
         {
-            var provider = new TestableLuceneDataProvider(new RAMDirectory(), Version.LUCENE_30);
+            var provider = new TestableLuceneDataProvider(new RAMDirectory(), Version.LUCENE_29);
 
             var first = provider.IndexWriter;
 
@@ -90,7 +90,7 @@ namespace Lucene.Net.Linq.Tests
         public void ThrowsWhenExternallyCreatedWriterIsClosed()
         {
             var writer = MockRepository.GenerateStrictMock<IIndexWriter>();
-            var provider = new LuceneDataProvider(new RAMDirectory(), Version.LUCENE_30, writer, new object());
+            var provider = new LuceneDataProvider(new RAMDirectory(), Version.LUCENE_29, writer, new object());
             
             writer.Expect(iw => iw.IsClosed).Return(true);
             
@@ -103,7 +103,7 @@ namespace Lucene.Net.Linq.Tests
         public void DoesNotDisposeExternallyProvidesWriter()
         {
             var writer = MockRepository.GenerateMock<IIndexWriter>();
-            var provider = new LuceneDataProvider(new RAMDirectory(), new KeywordAnalyzer(), Version.LUCENE_30, writer, new object());
+            var provider = new LuceneDataProvider(new RAMDirectory(), new KeywordAnalyzer(), Version.LUCENE_29, writer, new object());
 
             provider.Dispose();
 
@@ -125,7 +125,7 @@ namespace Lucene.Net.Linq.Tests
         [Test]
         public void MergesAnalyzersForSessionsOfDifferentTypes()
         {
-            var provider = new LuceneDataProvider(new RAMDirectory(), Version.LUCENE_30);
+            var provider = new LuceneDataProvider(new RAMDirectory(), Version.LUCENE_29);
 
             provider.OpenSession<A>();
             provider.OpenSession<B>();

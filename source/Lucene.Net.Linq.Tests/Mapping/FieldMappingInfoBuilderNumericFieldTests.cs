@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Reflection;
 using Lucene.Net.Documents;
 using Lucene.Net.Linq.Mapping;
@@ -31,8 +32,8 @@ namespace Lucene.Net.Linq.Tests.Mapping
 
             mapper.CopyToDocument(this, doc);
 
-            Assert.That(doc.GetFieldable("CustomValueType").TokenStreamValue.ToString(), Is.EqualTo("(numeric,valSize=64,precisionStep=4)"));
-            Assert.That(doc.GetFieldable("CustomValueType").StringValue, Is.EqualTo("1.34"));
+            Assert.That(doc.GetFieldable("CustomValueType").TokenStreamValue().ToString(), Is.EqualTo("(numeric,valSize=64,precisionStep=4)"));
+            Assert.That(doc.GetFieldable("CustomValueType").StringValue(), Is.EqualTo(1.34d.ToString()));
         }
 
         [Test]
@@ -42,7 +43,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
             var mapper = CreateMapper();
 
             var doc = new Document();
-            doc.Add(new Field("CustomValueType", "2.68", Field.Store.YES, Field.Index.NO));
+            doc.Add(new Field("CustomValueType", (2.68d).ToString(CultureInfo.CurrentCulture), Field.Store.YES, Field.Index.NO));
 
             mapper.CopyFromDocument(doc, new QueryExecutionContext(), this);
 

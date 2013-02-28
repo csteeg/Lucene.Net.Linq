@@ -17,21 +17,21 @@ namespace Lucene.Net.Linq.Tests.Mapping
         [Test]
         public void CtrFindsKeyFields()
         {
-            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_30);
+            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_29);
             Assert.That(mapper.KeyProperties, Is.EquivalentTo(new[] {"Id", "Version", "Number"}));
         }
 
         [Test]
         public void CtrFindsDocumentKeys()
         {
-            var mapper = new ReflectionDocumentMapper<ReflectedDocumentWithKey>(LuceneVersion.LUCENE_30);
+            var mapper = new ReflectionDocumentMapper<ReflectedDocumentWithKey>(LuceneVersion.LUCENE_29);
             Assert.That(mapper.KeyProperties, Is.EquivalentTo(new[] { "Id", "Version", "Number", "**DocumentKey**Type", "**DocumentKey**Revision" }));
         }
 
         [Test]
         public void ContainsMetaPropertyForDocumentKey()
         {
-            var mapper = new ReflectionDocumentMapper<ReflectedDocumentWithKey>(LuceneVersion.LUCENE_30);
+            var mapper = new ReflectionDocumentMapper<ReflectedDocumentWithKey>(LuceneVersion.LUCENE_29);
 
             Assert.That(mapper.KeyProperties.Select(mapper.GetMappingInfo).Count(), Is.EqualTo(5));
         }
@@ -39,7 +39,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
         [Test]
         public void ToKey_ThrowsOnNullValues()
         {
-            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_30);
+            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_29);
 
             TestDelegate call = () => mapper.ToKey(new ReflectedDocument());
 
@@ -49,7 +49,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
         [Test]
         public void ToKey_DifferentInstance()
         {
-            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_30);
+            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_29);
             var key1 = mapper.ToKey(new ReflectedDocument { Id = "x", Version = new Version("1.0") });
             var key2 = mapper.ToKey(new ReflectedDocument { Id = "x", Version = new Version("1.0") });
             Assert.That(key1, Is.Not.SameAs(key2));
@@ -58,7 +58,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
         [Test]
         public void ToKey_Equal()
         {
-            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_30);
+            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_29);
             var key1 = mapper.ToKey(new ReflectedDocument { Id = "x", Version = new Version("1.0") });
             var key2 = mapper.ToKey(new ReflectedDocument { Id = "x", Version = new Version("1.0") });
             Assert.That(key1, Is.EqualTo(key2));
@@ -67,7 +67,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
         [Test]
         public void ToKey_NotEqual()
         {
-            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_30);
+            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_29);
             var key1 = mapper.ToKey(new ReflectedDocument { Id = "x", Version = new Version("1.0") });
             var key2 = mapper.ToKey(new ReflectedDocument { Id = "y", Version = new Version("2.0") });
             Assert.That(key1, Is.Not.EqualTo(key2));
@@ -76,14 +76,14 @@ namespace Lucene.Net.Linq.Tests.Mapping
         [Test]
         public void ToKey_DocumentKeys()
         {
-            var mapper = new ReflectionDocumentMapper<ReflectedDocumentWithKey>(LuceneVersion.LUCENE_30);
+            var mapper = new ReflectionDocumentMapper<ReflectedDocumentWithKey>(LuceneVersion.LUCENE_29);
 
             mapper.ToKey(new ReflectedDocumentWithKey { Id = "x", Version = new Version("1.0") });
         }
         [Test]
         public void Documents_Equal()
         {
-            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_30);
+            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_29);
 
             Assert.That(mapper.Equals(item1, item2), Is.True);
         }
@@ -91,7 +91,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
         [Test]
         public void Documents_Equal_IgnoredField()
         {
-            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_30);
+            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_29);
 
             item1.IgnoreMe = "different";
 
@@ -101,7 +101,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
         [Test]
         public void Documents_Equal_Not()
         {
-            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_30);
+            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_29);
 
             item1.Version = new Version("5.6.7.8");
 
@@ -111,7 +111,7 @@ namespace Lucene.Net.Linq.Tests.Mapping
         [Test]
         public void ValuesEqual_Enumerable()
         {
-            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_30);
+            var mapper = new ReflectionDocumentMapper<ReflectedDocument>(LuceneVersion.LUCENE_29);
 
             var result = mapper.ValuesEqual(new[] {"a", "b"}, new List<string> {"a", "b"});
 
@@ -123,16 +123,16 @@ namespace Lucene.Net.Linq.Tests.Mapping
         {
             var document = new Document();
 
-            var mapper = new ReflectionDocumentMapper<ReflectedDocumentWithReadOnlyKey>(LuceneVersion.LUCENE_30);
+            var mapper = new ReflectionDocumentMapper<ReflectedDocumentWithReadOnlyKey>(LuceneVersion.LUCENE_29);
             mapper.ToDocument(new ReflectedDocumentWithReadOnlyKey { Id = "a" }, document);
 
-            Assert.That(document.GetField("Type").StringValue, Is.EqualTo("ReflectedDocumentWithReadOnlyKey"));
+            Assert.That(document.GetField("Type").StringValue(), Is.EqualTo("ReflectedDocumentWithReadOnlyKey"));
         }
 
         [Test]
         public void ScoreProperty()
         {
-            var mapper = new ReflectionDocumentMapper<ScoreDoc>(LuceneVersion.LUCENE_30);
+            var mapper = new ReflectionDocumentMapper<ScoreDoc>(LuceneVersion.LUCENE_29);
 
             Assert.That(mapper.AllProperties.ToArray(), Is.EqualTo(new [] {"Score"}));
         }

@@ -24,7 +24,7 @@ namespace Lucene.Net.Linq.Mapping
         {
             if (context.Phase == QueryExecutionPhase.ConvertResults)
             {
-                var score = context.CurrentScoreDoc.Score();
+                var score = context.CurrentScoreDoc.score;
                 propertyInfo.SetValue(target, score, null);
             }
         }
