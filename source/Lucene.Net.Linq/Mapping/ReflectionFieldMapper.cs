@@ -181,7 +181,7 @@ namespace Lucene.Net.Linq.Mapping
             return analyzer.Analyze(FieldName, ConvertToQueryExpression(value));
         }
 
-        protected internal virtual object ConvertFieldValue(IFieldable field)
+        protected internal virtual object ConvertFieldValue(Fieldable field)
         {
             var fieldValue = (object)field.StringValue();
 
@@ -209,8 +209,8 @@ namespace Lucene.Net.Linq.Mapping
 
             if (fieldValue != null)
             {
-                var field = new Field(fieldName, fieldValue, FieldStore, (Field.Index) index, (Field.TermVector) TermVector);
-                field.Boost = Boost;
+                var field = new Field(fieldName, fieldValue, FieldStore, index.ToFieldIndex(), TermVector.ToTermVector());
+                field.SetBoost(Boost);
                 target.Add(field);
             }
         }
@@ -219,7 +219,7 @@ namespace Lucene.Net.Linq.Mapping
         {
             get
             {
-                return (Field.Store) store;
+                return store.ToStoreMode();
             }
         }
     }

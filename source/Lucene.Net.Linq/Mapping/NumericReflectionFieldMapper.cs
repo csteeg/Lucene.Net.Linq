@@ -43,7 +43,7 @@ namespace Lucene.Net.Linq.Mapping
             return new SortField(FieldName, targetType.ToSortField(), reverse);
         }
 
-        protected internal override object ConvertFieldValue(IFieldable field)
+        protected internal override object ConvertFieldValue(Fieldable field)
         {
             var value = base.ConvertFieldValue(field);
 
@@ -81,7 +81,7 @@ namespace Lucene.Net.Linq.Mapping
             if (diff < threshold) return;
 
             numericField.ForceDisableOmitNorms();
-            numericField.Boost = Boost;
+            numericField.SetBoost(Boost);
         }
 
         public override string ConvertToQueryExpression(object value)
