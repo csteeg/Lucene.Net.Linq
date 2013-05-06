@@ -87,7 +87,7 @@ Next, create LuceneDataProvider and run some queries:
         {
             var directory = new RAMDirectory();
 
-            var provider = new LuceneDataProvider(directory, Version.LUCENE_30);
+            var provider = new LuceneDataProvider(directory, Version.LUCENE_29);
 
             // add some documents
             using (var session = provider.OpenSession<Article>())
