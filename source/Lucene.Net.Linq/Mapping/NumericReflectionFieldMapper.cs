@@ -19,8 +19,8 @@ namespace Lucene.Net.Linq.Mapping
         private readonly TypeConverter typeToValueTypeConverter;
         private readonly int precisionStep;
 
-        public NumericReflectionFieldMapper(PropertyInfo propertyInfo, StoreMode store, TypeConverter typeToValueTypeConverter, TypeConverter valueTypeToStringConverter, string field, int precisionStep)
-            : base(propertyInfo, store, IndexMode.Analyzed, valueTypeToStringConverter, field, false, new KeywordAnalyzer())
+        public NumericReflectionFieldMapper(PropertyInfo propertyInfo, StoreMode store, TypeConverter typeToValueTypeConverter, TypeConverter valueTypeToStringConverter, string field, int precisionStep, float boost)
+            : base(propertyInfo, store, IndexMode.Analyzed, TermVectorMode.No, valueTypeToStringConverter, field, false, new KeywordAnalyzer(), boost)
         {
             this.typeToValueTypeConverter = typeToValueTypeConverter;
             this.precisionStep = precisionStep;
@@ -43,7 +43,7 @@ namespace Lucene.Net.Linq.Mapping
             return new SortField(FieldName, targetType.ToSortField(), reverse);
         }
 
-        protected internal override object ConvertFieldValue(Field field)
+        protected internal override object ConvertFieldValue(IFieldable field)
         {
             var value = base.ConvertFieldValue(field);
 
@@ -66,10 +66,22 @@ namespace Lucene.Net.Linq.Mapping
             value = ConvertToSupportedValueType(value);
 
             var numericField = new NumericField(fieldName, precisionStep, FieldStore, true);
-
             numericField.SetValue((ValueType)value);
 
+            SetBoostIfNotDefault(numericField);
+
             target.Add(numericField);
+        }
+
+        private void SetBoostIfNotDefault(NumericField numericField)
+        {
+            const float threshold = 0.002f;
+            var diff = Math.Abs(Boost - 1.0f);
+            
+            if (diff < threshold) return;
+
+            numericField.ForceDisableOmitNorms();
+            numericField.Boost = Boost;
         }
 
         public override string ConvertToQueryExpression(object value)
